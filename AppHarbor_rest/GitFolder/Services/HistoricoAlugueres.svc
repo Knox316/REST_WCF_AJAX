@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="ImoServicos.Services.HistoricoAlugueres" CodeBehind="HistoricoAlugueres.svc.cs" Factory ="System.ServiceModel.Activation.WebServiceHostFactory"%>

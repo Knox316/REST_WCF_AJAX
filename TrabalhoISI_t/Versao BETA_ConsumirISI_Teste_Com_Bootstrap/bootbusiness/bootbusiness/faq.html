@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title><link href="css/boot-business.css" rel="stylesheet" /> 
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"> </script>   
+    <script type="text/javascript" src="js/jquery-3.1.1.js"> </script>  
+
+    //<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script> 
+
+    <script type="text/javascript">
+    var urlService = "http://localhost:38958/Services/TryGmaps.svc/";
+    var puntos = [];
+    function getPaciente() {
+    try {
+        var param = $("#txtNom").val();
+        $.ajax({
+            type: "POST",
+            url: urlService + "getPacientes",
+            data: '{"idh":"' + param + '"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                alert(data.d);
+                var pacientes = eval(data.d);
+                var html = "";
+                $.each(pacientes, function () {
+                    html += "<tr data-='" + JSON.stringify(this) +
+                        "'><td><a onclick='mostrarDireccion(this)'>OK</a></td><td>" + this.IdHabitacao +
+                        "</td><td>" + this.IdCliente + "</td><td>" + this.Preco + "</td><td>" + this.Ocupado + "</td><td>" + this.TipoOcupacao + "</td></tr>";
+                });
+                $("#tabCliente tbody").html(html);
+            },
+            error: function (da) {
+                alert('Error ' + da.responseText);
+            }
+        });
+    } catch (e) {
+        alert(e.message);
+    }
+};
+</script>
+       
+        
+</head>
+<body>
+    
+    <div id="data" style="width: 100%; background-color: #668BB4; overflow: auto; height: 300px;">
+        <div id="divCliente" style="position: absolute; width: 100%; top: 20px; bottom: 0px;">
+            <fieldset>
+                <legend>Busque Pacientes</legend>
+                <table>
+                    <tr>
+                        <th>Nombre</th>
+                        <td>
+                            <input type="text" id="txtNom" />
+                        </td>
+                        <td>
+                            <input type="button" id="btnBuscar" value="Show" onclick="getPaciente()"/>
+                        </td>
+                    </tr>
+                </table>
+                <div style="max-height: 600px; overflow: auto; width: 70%; float: left; background-color : aliceblue;">
+                    <fieldset>
+                        <legend>Pacientes</legend>
+                        <table class="tablaDetalle" id="tabCliente">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>IdHabitacao</th>
+                                <th>IdCliente</th>
+                                <th>Preco</th>
+                                <th>Ocupado</th>
+                                <th>TipoOcupacao</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    </fieldset>
+                </div>
+                <div  id="divDireccion" style="float:right; right:0px; width:28%; background-color : aliceblue;">
+                <fieldset>
+                    <legend>Direcciones</legend>
+                    <div id="divDirec">
+                    <table id="tabDireccion" class="tablaDetalle">
+                        <thead>
+                            <tr>
+                                <th>Ok</th>
+                                <th>Direccion</th>
+                                <th>Latitud
+                                </th>
+                                <th>Longitud</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                        </div>
+                </fieldset>
+            </div>
+            </fieldset>
+            
+        </div>
+    </div>
+
+    <div id="mapa" style="width: 100%; min-height: 600px; height: 100%">
+    </div>
+    <div id="Total" style="display:none; background-color:#ffffff; position:fixed; top:0px; bottom:0px; left:0px; right:0px">
+
+    </div>
+</body>
+</html>

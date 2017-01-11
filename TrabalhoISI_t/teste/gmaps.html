@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello jQuery</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="gmaps.js"></script>
+    </head>
+
+    <body>
+        <div class="container">
+        <div class="col-lg-12">
+        <table class="table table-striped">
+        <thead id="tbl">
+        <tr>
+		<th>ID </th>
+        <th>Latitude </th>
+        <th>Longitude <th>
+        </tr>
+        </thead>
+        </table>
+        </div>
+        </div>
+		<input type="button" id="btn" value="Mostrar todas" />
+		
+		<style>
+		#map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+  </head>
+  <body>
+    <h3>My Google Maps Demo</h3>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+    $.ajax({
+        url: "http://localhost:38958/Services/DadosHabitacoes.svc/ProcurarDadosHabitacao/1",
+        type: "GET",
+        Accept: "aplication/json",
+    }).then(function (data) {
+        var uluru = { lat: data.Latitude, lng: data.Longitude };
+		//uluru = { lat: 41.5364447, lng: -8.6329287 };
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: uluru
+        });
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map
+        });
+
+
+
+
+        
+    });
+}
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASygMn1BFDgOOyzNINByeTzTLshvypC9M &callback=initMap">
+    </script>
+    </body>
+</html>

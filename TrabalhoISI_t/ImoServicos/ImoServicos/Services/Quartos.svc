@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="ImoServicos.Services.Quartos" CodeBehind="Quartos.svc.cs" Factory ="System.ServiceModel.Activation.WebServiceHostFactory"%>
